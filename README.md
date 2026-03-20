@@ -1,182 +1,248 @@
-#  CI/CD Pipeline with Node.js, Docker, and GitHub Actions
+# CI/CD Project — Full Stack Node.js with Docker & GitHub Actions
 
-This project demonstrates a **complete CI/CD pipeline** for a Node.js application using **Docker** and **GitHub Actions**.
-The pipeline automatically builds and validates the application whenever code is pushed to the repository.
-
-The goal of this project is to show how modern DevOps practices can automate software integration and containerization.
+> A production-ready full stack application with a complete CI/CD pipeline — automatically builds, containerizes and validates every code change using GitHub Actions and Docker.
 
 ---
 
-##  Project Overview
+## What This Project Does
 
-This repository contains a simple Node.js application that serves a frontend webpage.
-The application is containerized using Docker and integrated with a CI pipeline using GitHub Actions.
+Every time code is pushed to `main`:
 
-Whenever a developer pushes code to the `main` branch:
+```
+git push → GitHub Actions triggers → dependencies install → Docker image builds → app is ready
+```
 
-1. GitHub Actions triggers the CI workflow
-2. Dependencies are installed
-3. The Docker image is built automatically
-4. The pipeline verifies the build process
-
-This ensures that every change to the repository is automatically tested and built.
+**No manual builds. No manual deployments. Everything is automated.**
 
 ---
 
-##  Project Architecture
+## Live Demo Architecture
 
 ```
-Developer Push
-      │
-      ▼
-GitHub Repository
-      │
-      ▼
-GitHub Actions CI Pipeline
-      │
-      ▼
-Install Dependencies
-      │
-      ▼
-Build Docker Image
-      │
-      ▼
-Application Ready for Deployment
+┌─────────────────────────────────────────────────────┐
+│                   Developer                          │
+│                      │                               │
+│                 git push                             │
+│                      │                               │
+│                      ▼                               │
+│           GitHub Repository                          │
+│                      │                               │
+│            triggers automatically                    │
+│                      │                               │
+│                      ▼                               │
+│    ┌─────────────────────────────────────┐           │
+│    │     GitHub Actions CI Pipeline       │           │
+│    │                                      │           │
+│    │  1. Checkout code                    │           │
+│    │  2. Setup Node.js environment        │           │
+│    │  3. Install dependencies (npm ci)    │           │
+│    │  4. Build Docker image               │           │
+│    │  5. Verify build success             │           │
+│    └─────────────────────────────────────┘           │
+│                      │                               │
+│                      ▼                               │
+│    ┌─────────────────────────────────────┐           │
+│    │         Docker Container             │           │
+│    │                                      │           │
+│    │  ┌──────────────┐ ┌──────────────┐  │           │
+│    │  │   Backend    │ │   Frontend   │  │           │
+│    │  │  (Node.js +  │ │  (HTML UI)   │  │           │
+│    │  │   Express)   │ │              │  │           │
+│    │  │  port: 3000  │ │              │  │           │
+│    │  └──────────────┘ └──────────────┘  │           │
+│    └─────────────────────────────────────┘           │
+└─────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
-ci-cdProject
-│
-├── .github
-│   └── workflows
-│        └── main.yml        # CI/CD pipeline configuration
-│
-├── backend
-│   ├── app.js               # Node.js server
-│   ├── package.json
+ci-cdProject/
+├── .github/
+│   └── workflows/
+│       └── main.yml          # GitHub Actions CI pipeline
+├── backend/
+│   ├── app.js                # Node.js + Express server
+│   ├── package.json          # Dependencies
 │   └── package-lock.json
-│
-├── frontend
-│   └── index.html           # Simple frontend UI
-│
-├── Dockerfile               # Docker image configuration
-├── docker-compose.yml       # Container orchestration
+├── frontend/
+│   └── index.html            # Frontend UI
+├── Dockerfile                # Container build config
+├── docker-compose.yml        # Multi-container orchestration
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## ⚙️ Technologies Used
+## Tech Stack
 
-* Node.js
-* Docker
-* Docker Compose
-* GitHub Actions
-* Express.js
-* HTML
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Backend | Node.js + Express | REST API server |
+| Frontend | HTML | User interface |
+| Containerization | Docker | Portable app packaging |
+| Orchestration | Docker Compose | Multi-service management |
+| CI Pipeline | GitHub Actions | Auto build on every push |
+| Version Control | Git + GitHub | Source code management |
 
 ---
 
-## 🔧 How to Run the Project Locally
+## Getting Started
 
-### 1️⃣ Clone the Repository
+### Prerequisites
 
+```bash
+node --version    # v14 or higher
+docker --version  # any version
+git --version     # any version
 ```
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/mohithshuka/ci-cdProject.git
 cd ci-cdProject
 ```
 
-### 2️⃣ Install Dependencies
+### 2. Run locally without Docker
 
-```
+```bash
 cd backend
 npm install
-```
-
-### 3️⃣ Run the Application
-
-```
 node app.js
 ```
 
-Open in browser:
+Open in browser: `http://localhost:3000`
 
-```
-http://localhost:3000
-```
+### 3. Run with Docker
 
----
-
-## 🐳 Running with Docker
-
-Build Docker image:
-
-```
+```bash
+# Build the image
 docker build -t cicd-app .
-```
 
-Run container:
-
-```
+# Run the container
 docker run -p 3000:3000 cicd-app
 ```
 
----
+Open in browser: `http://localhost:3000`
 
-##  CI Pipeline Workflow
+### 4. Run with Docker Compose
 
-The CI workflow runs automatically when code is pushed to the `main` branch.
-
-Pipeline steps:
-
-1. Checkout repository
-2. Setup Node.js environment
-3. Install dependencies
-4. Build Docker image
-
-Workflow file:
-
+```bash
+docker-compose up
 ```
-.github/workflows/main.yml
+
+Open in browser: `http://localhost:3000`
+
+To stop:
+
+```bash
+docker-compose down
 ```
 
 ---
 
-##  Future Improvements
+## CI/CD Pipeline
 
-Possible improvements for this project:
+The GitHub Actions workflow runs automatically on every push to `main`:
 
-* Push Docker images to Docker Hub
-* Automatic deployment to AWS EC2
-* Kubernetes deployment
-* Monitoring with Prometheus & Grafana
-* Add automated testing
+```yaml
+# .github/workflows/main.yml
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - Checkout code
+      - Setup Node.js
+      - Install dependencies
+      - Build Docker image
+```
+
+### Pipeline Status
+
+| Step | Description | Status |
+|------|-------------|--------|
+| Checkout | Pull latest code | Automated |
+| Node Setup | Configure Node.js env | Automated |
+| Install | `npm install` dependencies | Automated |
+| Docker Build | Build production image | Automated |
+
+Every green checkmark on GitHub means the app builds successfully and is ready to deploy.
 
 ---
 
-## 🎯 Learning Objectives
+## Docker Configuration
 
-This project demonstrates:
+### Dockerfile
 
-* CI/CD pipeline setup
-* Docker containerization
-* GitHub Actions automation
-* DevOps workflow integration
+The app uses a single-stage Dockerfile:
+
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY backend/package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["node", "backend/app.js"]
+```
+
+### Docker Compose
+
+Manages the full stack with a single command:
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+```
 
 ---
 
-##  Author
+## Roadmap
+
+This project is the foundation. Planned upgrades:
+
+- [ ] Push Docker images to Docker Hub or GHCR
+- [ ] Add automated Jest test suite
+- [ ] Deploy to AWS EC2 or Railway
+- [ ] Kubernetes deployment with HPA auto-scaling
+- [ ] Prometheus + Grafana monitoring stack
+- [ ] ArgoCD GitOps continuous delivery
+
+---
+
+## Key Learnings
+
+- GitHub Actions triggers automatically on `git push` — no manual steps needed
+- Docker ensures the app runs identically on every machine
+- Docker Compose simplifies running multi-service applications locally
+- CI pipelines catch broken builds before they reach production
+- Separating `backend/` and `frontend/` keeps the codebase clean and scalable
+
+---
+
+## Author
 
 **Mohith Shuka**
-
-GitHub:
-https://github.com/mohithshuka
+GitHub: [@mohithshuka](https://github.com/mohithshuka)
 
 ---
 
-⭐ If you found this project useful, consider giving it a star!
+## License
+
+MIT
+
+---
+
+> If you found this project useful, consider giving it a star!
