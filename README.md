@@ -2,6 +2,15 @@
 
 > A production-ready full stack application with a complete CI/CD pipeline — automatically builds, containerizes and validates every code change using GitHub Actions and Docker.
 
+![CI Pipeline](https://github.com/mohithshuka/ci-cdProject/actions/workflows/main.yml/badge.svg)
+![Node.js](https://img.shields.io/badge/Node.js-18-339933?logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-Backend-000000?logo=express&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker--Compose-Orchestrated-2496ED?logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-Automated-2088FF?logo=github-actions&logoColor=white)
+![HTML](https://img.shields.io/badge/HTML-Frontend-E34F26?logo=html5&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-Language-F7DF1E?logo=javascript&logoColor=black)
+
 ---
 
 ## What This Project Does
@@ -183,8 +192,6 @@ Every green checkmark on GitHub means the app builds successfully and is ready t
 
 ### Dockerfile
 
-The app uses a single-stage Dockerfile:
-
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -197,8 +204,6 @@ CMD ["node", "backend/app.js"]
 
 ### Docker Compose
 
-Manages the full stack with a single command:
-
 ```yaml
 services:
   app:
@@ -210,8 +215,6 @@ services:
 ---
 
 ## Roadmap
-
-This project is the foundation. Planned upgrades:
 
 - [ ] Push Docker images to Docker Hub or GHCR
 - [ ] Add automated Jest test suite
