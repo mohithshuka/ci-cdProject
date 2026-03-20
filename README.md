@@ -231,7 +231,7 @@ services:
 - Docker ensures the app runs identically on every machine
 - Docker Compose simplifies running multi-service applications locally
 - CI pipelines catch broken builds before they reach production
-- Separating `backend/` and `frontend/` keeps the codebase clean and scalable
+- Separating `backend/` and `frontend/` keeps the codebase clean and scalable.
 
 ---
 
